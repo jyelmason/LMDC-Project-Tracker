@@ -65,20 +65,28 @@ function ImportPage() {
     if (!file) return;
     setStatus("loading");
     setErrorMsg("");
+
+    // Small delay so React renders the loading state before heavy work starts
+    await new Promise(r => setTimeout(r, 100));
+
     try {
       const text = await file.text();
       const records = JSON.parse(text);
       const entries = Object.entries(records);
       setProgress({ done: 0, total: entries.length });
 
-      // Write in batches to avoid overwhelming Firestore
-      const CHUNK = 50;
+      // Write one record at a time — slower but progress bar updates visibly
+      // and Firestore free tier won't get rate limited
+      const CHUNK = 10;
       for (let i = 0; i < entries.length; i += CHUNK) {
         const chunk = entries.slice(i, i + CHUNK);
         await Promise.all(
           chunk.map(([id, data]) => setDoc(doc(db, "tracker", id), data))
         );
-        setProgress({ done: Math.min(i + CHUNK, entries.length), total: entries.length });
+        const done = Math.min(i + CHUNK, entries.length);
+        setProgress({ done, total: entries.length });
+        // Yield to browser between each chunk so React can re-render the bar
+        await new Promise(r => setTimeout(r, 0));
       }
       setStatus("done");
     } catch (err) {
