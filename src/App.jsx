@@ -3,14 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, doc, updateDoc, setDoc, query, where } from "firebase/firestore";
 
 // ── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────────────────
+// Import the functions you need from the SDKs you need
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyBxzdPgV6GeV5lFDCTlYHYNW402y9-0TCQ",
+  authDomain: "lmdc-project-tracker.firebaseapp.com",
+  projectId: "lmdc-project-tracker",
+  storageBucket: "lmdc-project-tracker.firebasestorage.app",
+  messagingSenderId: "921100904090",
+  appId: "1:921100904090:web:cfe5a5f7491c8b0c80a123",
+  measurementId: "G-K3ZVCDKJ9G"
 };
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 const app = initializeApp(firebaseConfig);
